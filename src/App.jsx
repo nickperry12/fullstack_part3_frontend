@@ -106,13 +106,7 @@ const App = () => {
           .catch(err => console.error('There was an error: ', err));
       }
     } else {
-      const newId = persons.length > 0 
-                                   ? Math.max(persons.map(p => p.id)) + 1
-                                   : 1;
-
-      
       let newPerson = {
-        id: newId,
         name: newName,
         number: newNumber,
       };
@@ -120,6 +114,7 @@ const App = () => {
       personService
         .create(newPerson)
         .then((returnedPerson) => {
+          console.log(returnedPerson);
           setPersons(persons.concat(returnedPerson));
           updateSuccess(`${returnedPerson.name} was successfully added!`);
           resetFields();
