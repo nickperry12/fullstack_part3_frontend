@@ -41,7 +41,7 @@ const App = () => {
     setError(msg);
     setTimeout(() => {
       setError(null);
-    }, 10000)
+    }, 5000)
   }
 
   const handleNameChange = (event) => {
@@ -66,7 +66,7 @@ const App = () => {
     if (confirm('Are you sure you want to delete the number?')) {
       personService
         .remove(id)
-        .then((result) => {
+        .then(() => {
           console.log(person);
           setPersons(updatedPersons);
           updateSuccess(`${person.name} successfully deleted`);
@@ -103,7 +103,10 @@ const App = () => {
             setPersons(updatedPersons);
             resetFields();
           })
-          .catch(err => console.error('There was an error: ', err));
+          .catch(err => {
+            console.error('Whoops: ', err.response.data.error);
+            updateError(err.response.data.error);
+          })
       }
     } else {
       let newPerson = {
@@ -119,7 +122,10 @@ const App = () => {
           updateSuccess(`${returnedPerson.name} was successfully added!`);
           resetFields();
         })
-        .catch(error => console.error('There was an error: ', error));
+        .catch(error => {
+          console.error('Whoops: ', error.response.data.error)
+          updateError(error.response.data.error);
+        });
     }
   }
 
